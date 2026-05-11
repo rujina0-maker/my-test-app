@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // ── 질문 데이터 ──────────────────────────────────────────────
 const QUESTIONS = [
@@ -223,7 +223,7 @@ export default function TetoEgen() {
       `}</style>
 
       {/* BG decoration */}
-      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0 }}>
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, pointerEvents: "none", zIndex: 0 }}>
         {PARTICLES.map(p => (
           <div key={p.id} style={{ position: "absolute", left: p.left, top: p.top, fontSize: "0.65rem", color: "#d4c5f9", animation: `floatUp ${p.dur} ${p.delay} infinite ease-in-out` }}>{p.char}</div>
         ))}
@@ -299,7 +299,7 @@ export default function TetoEgen() {
                 { key: "b", data: QUESTIONS[current].b },
               ].map(({ key, data }) => (
                 <button
-                  key={key}
+                  key={`${current}-${key}`}
                   className="opt-btn"
                   onClick={() => handleAnswer(data.type)}
                   style={{

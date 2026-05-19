@@ -26,6 +26,32 @@ const CARD_IMAGES = {
   21: "/tarot/ar21.png",
 };
 
+// 썸네일용 (archive.org 소형 이미지 - reveal 화면 빠른 로딩)
+const CARD_THUMBS = {
+  0:  "https://archive.org/download/rider-waite-tarot/major_arcana_fool_thumb.jpg",
+  1:  "https://archive.org/download/rider-waite-tarot/major_arcana_magician_thumb.jpg",
+  2:  "https://archive.org/download/rider-waite-tarot/major_arcana_priestess_thumb.jpg",
+  3:  "https://archive.org/download/rider-waite-tarot/major_arcana_empress_thumb.jpg",
+  4:  "https://archive.org/download/rider-waite-tarot/major_arcana_emperor_thumb.jpg",
+  5:  "https://archive.org/download/rider-waite-tarot/major_arcana_hierophant_thumb.jpg",
+  6:  "https://archive.org/download/rider-waite-tarot/major_arcana_lovers_thumb.jpg",
+  7:  "https://archive.org/download/rider-waite-tarot/major_arcana_chariot_thumb.jpg",
+  8:  "https://archive.org/download/rider-waite-tarot/major_arcana_strength_thumb.jpg",
+  9:  "https://archive.org/download/rider-waite-tarot/major_arcana_hermit_thumb.jpg",
+  10: "https://archive.org/download/rider-waite-tarot/major_arcana_fortune_thumb.jpg",
+  11: "https://archive.org/download/rider-waite-tarot/major_arcana_justice_thumb.jpg",
+  12: "https://archive.org/download/rider-waite-tarot/major_arcana_hanged_thumb.jpg",
+  13: "https://archive.org/download/rider-waite-tarot/major_arcana_death_thumb.jpg",
+  14: "https://archive.org/download/rider-waite-tarot/major_arcana_temperance_thumb.jpg",
+  15: "https://archive.org/download/rider-waite-tarot/major_arcana_devil_thumb.jpg",
+  16: "https://archive.org/download/rider-waite-tarot/major_arcana_tower_thumb.jpg",
+  17: "https://archive.org/download/rider-waite-tarot/major_arcana_star_thumb.jpg",
+  18: "https://archive.org/download/rider-waite-tarot/major_arcana_moon_thumb.jpg",
+  19: "https://archive.org/download/rider-waite-tarot/major_arcana_sun_thumb.jpg",
+  20: "https://archive.org/download/rider-waite-tarot/major_arcana_judgement_thumb.jpg",
+  21: "https://archive.org/download/rider-waite-tarot/major_arcana_world_thumb.jpg",
+};
+
 // ── 카드 뒷면 SVG ────────────────────────────────────────────
 function CardBack({ width, height }) {
   return (
@@ -81,10 +107,10 @@ function CardBack({ width, height }) {
 }
 
 // ── CardArt 컴포넌트 (실제 이미지) ──────────────────────────
-function CardArt({ cardId, size = "md", reversed = false }) {
+function CardArt({ cardId, size = "md", reversed = false, thumb = false }) {
   const sizes = { lg: [120,180], md: [80,120], sm: [64,96] };
   const [w, h] = sizes[size] || sizes.md;
-  const src = CARD_IMAGES[cardId];
+  const src = thumb ? (CARD_THUMBS[cardId] || CARD_IMAGES[cardId]) : CARD_IMAGES[cardId];
   return (
     <div style={{ width: w, height: h, flexShrink: 0, borderRadius: "4px", overflow: "hidden", transform: reversed ? "rotate(180deg)" : "none", transition: "transform 0.3s", boxShadow: "0 4px 16px rgba(0,0,0,0.5)" }}>
       <img
@@ -446,38 +472,40 @@ export default function TarotApp() {
               <p style={{ color: "#c8b8e8", fontSize: "0.8rem", fontFamily: "'Noto Sans KR'" }}>{revealedIdx.length} / {drawnCards.length}장 공개됨</p>
             </div>
 
-            <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>
               {drawnCards.map((card, idx) => (
                 <div key={idx} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
-                  <span style={{ fontSize: "0.68rem", color: "#c084fc", fontFamily: "'Noto Sans KR'", letterSpacing: "0.05em" }}>{spread.positions[idx]}</span>
+                  <span style={{ fontSize: "0.72rem", color: "#c084fc", fontFamily: "'Noto Sans KR'", letterSpacing: "0.05em", fontWeight: 600 }}>{spread.positions[idx]}</span>
                   <div
                     className={!revealedIdx.includes(idx) ? "card-back" : ""}
                     onClick={() => handleReveal(idx)}
                     style={{
-                      width: drawnCards.length === 1 ? "140px" : drawnCards.length <= 3 ? "110px" : "80px",
-                      height: drawnCards.length === 1 ? "210px" : drawnCards.length <= 3 ? "165px" : "120px",
-                      background: revealedIdx.includes(idx)
-                        ? `linear-gradient(160deg, ${card.reversed ? "#2a0a0a" : "#0a1a2a"}, ${card.reversed ? "#1a0505" : "#050d15"})`
-                        : "linear-gradient(160deg, #2a1a4a, #1a0d30)",
-                      border: `1px solid ${revealedIdx.includes(idx) ? (card.reversed ? "rgba(255,100,100,0.3)" : "rgba(100,180,255,0.3)") : "rgba(180,130,255,0.3)"}`,
+                      width: drawnCards.length === 1 ? "160px" : drawnCards.length <= 3 ? "120px" : "90px",
+                      height: drawnCards.length === 1 ? "240px" : drawnCards.length <= 3 ? "180px" : "135px",
                       borderRadius: "12px",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
                       cursor: revealedIdx.includes(idx) ? "default" : "pointer",
-                      transform: "none",
                       transition: "all 0.4s ease",
-                      boxShadow: revealedIdx.includes(idx) ? `0 8px 24px ${card.reversed ? "rgba(255,100,100,0.15)" : "rgba(100,180,255,0.15)"}` : "0 4px 16px rgba(0,0,0,0.4)",
+                      boxShadow: revealedIdx.includes(idx) ? `0 8px 24px ${card.reversed ? "rgba(255,100,100,0.2)" : "rgba(100,180,255,0.2)"}` : "0 4px 16px rgba(0,0,0,0.5)",
                       animation: revealedIdx.includes(idx) ? "popIn .4s ease both" : "none",
+                      overflow: "hidden",
+                      border: `2px solid ${revealedIdx.includes(idx) ? (card.reversed ? "rgba(255,100,100,0.5)" : "rgba(100,180,255,0.5)") : "rgba(180,130,255,0.4)"}`,
                     }}
                   >
                     {revealedIdx.includes(idx) ? (
-                      <CardArt cardId={card.id} size={drawnCards.length === 1 ? "lg" : drawnCards.length <= 3 ? "md" : "sm"} reversed={card.reversed} />
+                      <CardArt cardId={card.id} size={drawnCards.length === 1 ? "lg" : drawnCards.length <= 3 ? "md" : "sm"} reversed={card.reversed} thumb={true} />
                     ) : (
-                      <CardBack width={drawnCards.length === 1 ? 100 : drawnCards.length <= 3 ? 80 : 60} height={drawnCards.length === 1 ? 150 : drawnCards.length <= 3 ? 120 : 90} />
+                      <CardBack width={drawnCards.length === 1 ? 160 : drawnCards.length <= 3 ? 120 : 90} height={drawnCards.length === 1 ? 240 : drawnCards.length <= 3 ? 180 : 135} />
                     )}
                   </div>
+                  {revealedIdx.includes(idx) && (
+                    <span style={{ fontSize: "0.7rem", color: card.reversed ? "#ffaaaa" : "#aaddff", fontFamily: "'Noto Sans KR'", fontWeight: 600 }}>
+                      {card.reversed ? "역방향 ▼" : "정방향 ▲"}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
@@ -498,21 +526,23 @@ export default function TarotApp() {
               return (
                 <div key={idx} className="fade-up" style={{ background: card.reversed ? "rgba(60,15,15,0.85)" : "rgba(15,20,50,0.85)", border: `1px solid ${card.reversed ? "rgba(255,120,120,0.35)" : "rgba(120,160,255,0.35)"}`, borderRadius: "20px", padding: "20px", marginBottom: "12px", animationDelay: `${idx * 0.1}s` }}>
                   {/* 카드 헤더 */}
-                  <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "14px" }}>
-                    <div style={{ flexShrink: 0, transform: card.reversed ? "rotate(180deg)" : "none", transition: "transform 0.3s" }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: "16px", marginBottom: "14px" }}>
+                    <div style={{ flexShrink: 0, transform: card.reversed ? "rotate(180deg)" : "none", transition: "transform 0.3s", borderRadius: "8px", overflow: "hidden", boxShadow: "0 4px 16px rgba(0,0,0,0.5)" }}>
                       <CardArt cardId={card.id} size="sm" />
                     </div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
-                        <span style={{ fontSize: "0.68rem", color: "#b0a0cc", fontFamily: "'Noto Sans KR'", fontWeight: 500 }}>{spread.positions[idx]}</span>
-                        <span style={{ fontSize: "0.62rem", background: card.reversed ? "rgba(255,100,100,0.25)" : "rgba(100,150,255,0.25)", color: card.reversed ? "#ffaaaa" : "#aaccff", padding: "2px 8px", borderRadius: "999px", fontFamily: "'Noto Sans KR'", fontWeight: 600 }}>{card.reversed ? "역방향 ▼" : "정방향 ▲"}</span>
+                    <div style={{ flex: 1, paddingTop: "4px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px", flexWrap: "wrap" }}>
+                        <span style={{ fontSize: "0.7rem", color: "#c084fc", fontFamily: "'Noto Sans KR'", fontWeight: 700, background: "rgba(192,132,252,0.15)", padding: "2px 8px", borderRadius: "999px" }}>{spread.positions[idx]}</span>
+                        <span style={{ fontSize: "0.65rem", background: card.reversed ? "rgba(255,100,100,0.25)" : "rgba(100,150,255,0.25)", color: card.reversed ? "#ffbbbb" : "#bbddff", padding: "2px 8px", borderRadius: "999px", fontFamily: "'Noto Sans KR'", fontWeight: 600 }}>{card.reversed ? "역방향 ▼" : "정방향 ▲"}</span>
                       </div>
-                      <div style={{ fontSize: "1.1rem", fontWeight: 700, color: "#ffffff", marginBottom: "4px" }}>{card.name}</div>
-                      <div style={{ fontSize: "0.8rem", color: card.reversed ? "#ffbbbb" : "#aaddff", fontFamily: "'Noto Sans KR'", fontWeight: 600 }}>{meaning.title}</div>
+                      <div style={{ fontSize: "1.2rem", fontWeight: 900, color: "#ffffff", marginBottom: "4px", fontFamily: "'Noto Serif KR', serif" }}>{card.name}</div>
+                      <div style={{ fontSize: "0.82rem", color: card.reversed ? "#ffcccc" : "#bbddff", fontFamily: "'Noto Sans KR'", fontWeight: 700 }}>{meaning.title}</div>
                     </div>
                   </div>
+                  {/* 구분선 */}
+                  <div style={{ height: "1px", background: card.reversed ? "rgba(255,120,120,0.2)" : "rgba(120,160,255,0.2)", marginBottom: "12px" }} />
                   {/* 해석 */}
-                  <p style={{ color: "#ddd0f0", fontSize: "0.88rem", lineHeight: 1.85, margin: 0, fontFamily: "'Noto Sans KR'" }}>{meaning.desc}</p>
+                  <p style={{ color: "#e8dff8", fontSize: "0.9rem", lineHeight: 1.85, margin: 0, fontFamily: "'Noto Sans KR'", wordBreak: "keep-all" }}>{meaning.desc}</p>
                 </div>
               );
             })}

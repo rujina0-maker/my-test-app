@@ -82,7 +82,7 @@ function CardBack({ width, height }) {
 
 // ── CardArt 컴포넌트 (실제 이미지) ──────────────────────────
 function CardArt({ cardId, size = "md", reversed = false }) {
-  const sizes = { lg: [100,150], md: [60,90], sm: [46,69] };
+  const sizes = { lg: [120,180], md: [80,120], sm: [64,96] };
   const [w, h] = sizes[size] || sizes.md;
   const src = CARD_IMAGES[cardId];
   return (
@@ -326,7 +326,7 @@ export default function TarotApp() {
         {/* ── INTRO ── */}
         {step === "intro" && (
           <div className="fade-up" style={{ textAlign: "center", paddingTop: "60px" }}>
-            <div style={{ fontSize: "0.68rem", color: "#9d6fd4", letterSpacing: "0.4em", marginBottom: "20px", fontFamily: "'Noto Sans KR'" }}>TAROT CARD READING</div>
+            <div style={{ fontSize: "0.68rem", color: "#c084fc", letterSpacing: "0.4em", marginBottom: "20px", fontFamily: "'Noto Sans KR'" }}>TAROT CARD READING</div>
 
             <div style={{ position: "relative", width: "120px", height: "180px", margin: "0 auto 28px", perspective: "600px" }}>
               {[0, 1, 2].map(i => (
@@ -340,7 +340,7 @@ export default function TarotApp() {
               타로 카드<br />
               <span style={{ background: "linear-gradient(90deg, #c084fc, #818cf8, #f472b6)", backgroundSize: "200%", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "shimmer 3s linear infinite" }}>오늘의 메시지</span>
             </h1>
-            <p style={{ color: "#6b5a8a", fontSize: "0.88rem", lineHeight: 1.7, marginBottom: "36px", fontFamily: "'Noto Sans KR'" }}>
+            <p style={{ color: "#c8b8e8", fontSize: "0.88rem", lineHeight: 1.7, marginBottom: "36px", fontFamily: "'Noto Sans KR'" }}>
               22장의 메이저 아르카나가<br />당신에게 전하는 이야기
             </p>
 
@@ -348,7 +348,7 @@ export default function TarotApp() {
               {["정방향 — 카드의 본래 의미", "역방향 — 에너지가 약해지거나 반전된 의미", "3가지 스프레드 방식 선택 가능"].map((t, i) => (
                 <div key={i} style={{ display: "flex", gap: "10px", marginBottom: i < 2 ? "10px" : 0, alignItems: "flex-start" }}>
                   <span style={{ color: "#c084fc", fontSize: "0.65rem", marginTop: "3px" }}>✦</span>
-                  <span style={{ color: "#8a7aaa", fontSize: "0.82rem" }}>{t}</span>
+                  <span style={{ color: "#e0d4f8", fontSize: "0.82rem" }}>{t}</span>
                 </div>
               ))}
             </div>
@@ -363,9 +363,9 @@ export default function TarotApp() {
         {step === "topic" && (
           <div className="fade-up" style={{ paddingTop: "52px" }}>
             <div style={{ textAlign: "center", marginBottom: "28px" }}>
-              <div style={{ fontSize: "0.68rem", color: "#9d6fd4", letterSpacing: "0.2em", marginBottom: "8px", fontFamily: "'Noto Sans KR'" }}>STEP 1</div>
+              <div style={{ fontSize: "0.68rem", color: "#c084fc", letterSpacing: "0.2em", marginBottom: "8px", fontFamily: "'Noto Sans KR'" }}>STEP 1</div>
               <h2 style={{ fontSize: "1.5rem", fontWeight: 700, color: "#f0e6ff" }}>무엇이 궁금하세요?</h2>
-              <p style={{ color: "#6b5a8a", fontSize: "0.82rem", marginTop: "6px", fontFamily: "'Noto Sans KR'" }}>주제를 선택하면 더 깊은 해석이 가능해요</p>
+              <p style={{ color: "#c8b8e8", fontSize: "0.82rem", marginTop: "6px", fontFamily: "'Noto Sans KR'" }}>주제를 선택하면 더 깊은 해석이 가능해요</p>
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -383,16 +383,16 @@ export default function TarotApp() {
         {step === "spread" && (
           <div className="fade-up" style={{ paddingTop: "52px" }}>
             <div style={{ textAlign: "center", marginBottom: "28px" }}>
-              <div style={{ fontSize: "0.68rem", color: "#9d6fd4", letterSpacing: "0.2em", marginBottom: "8px", fontFamily: "'Noto Sans KR'" }}>STEP 2</div>
+              <div style={{ fontSize: "0.68rem", color: "#c084fc", letterSpacing: "0.2em", marginBottom: "8px", fontFamily: "'Noto Sans KR'" }}>STEP 2</div>
               <h2 style={{ fontSize: "1.5rem", fontWeight: 700, color: "#f0e6ff" }}>스프레드 선택</h2>
-              <p style={{ color: "#6b5a8a", fontSize: "0.82rem", marginTop: "6px", fontFamily: "'Noto Sans KR'" }}>몇 장을 뽑을까요?</p>
+              <p style={{ color: "#c8b8e8", fontSize: "0.82rem", marginTop: "6px", fontFamily: "'Noto Sans KR'" }}>몇 장을 뽑을까요?</p>
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               {SPREADS.map(s => (
                 <button key={s.id} className="topic-btn" onClick={() => { setSpread(s); setStep("shuffle"); }} style={{ padding: "20px 22px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(180,130,255,0.15)", borderRadius: "16px", color: "#f0e6ff", fontFamily: "'Noto Serif KR', serif", fontSize: "1rem", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ fontWeight: 700, marginBottom: "4px" }}>{s.label}</div>
-                  <div style={{ fontSize: "0.78rem", color: "#6b5a8a", fontFamily: "'Noto Sans KR'" }}>{s.sub}</div>
+                  <div style={{ fontSize: "0.78rem", color: "#c8b8e8", fontFamily: "'Noto Sans KR'" }}>{s.sub}</div>
                   <div style={{ display: "flex", gap: "6px", marginTop: "10px" }}>
                     {s.positions.map(p => (
                       <span key={p} style={{ background: "rgba(180,130,255,0.1)", border: "1px solid rgba(180,130,255,0.2)", borderRadius: "999px", padding: "2px 8px", fontSize: "0.68rem", color: "#c084fc", fontFamily: "'Noto Sans KR'" }}>{p}</span>
@@ -407,10 +407,10 @@ export default function TarotApp() {
         {/* ── SHUFFLE ── */}
         {step === "shuffle" && (
           <div className="fade-up" style={{ paddingTop: "52px", textAlign: "center" }}>
-            <div style={{ fontSize: "0.68rem", color: "#9d6fd4", letterSpacing: "0.2em", marginBottom: "20px", fontFamily: "'Noto Sans KR'" }}>STEP 3</div>
+            <div style={{ fontSize: "0.68rem", color: "#c084fc", letterSpacing: "0.2em", marginBottom: "20px", fontFamily: "'Noto Sans KR'" }}>STEP 3</div>
             <h2 style={{ fontSize: "1.4rem", fontWeight: 700, color: "#f0e6ff", marginBottom: "8px" }}>마음을 집중하세요</h2>
-            <p style={{ color: "#6b5a8a", fontSize: "0.82rem", marginBottom: "8px", fontFamily: "'Noto Sans KR'" }}>{topic?.question} 질문하며</p>
-            <p style={{ color: "#9d6fd4", fontSize: "0.82rem", marginBottom: "40px", fontFamily: "'Noto Sans KR'" }}>카드를 섞어주세요</p>
+            <p style={{ color: "#c8b8e8", fontSize: "0.82rem", marginBottom: "8px", fontFamily: "'Noto Sans KR'" }}>{topic?.question} 질문하며</p>
+            <p style={{ color: "#c084fc", fontSize: "0.82rem", marginBottom: "40px", fontFamily: "'Noto Sans KR'" }}>카드를 섞어주세요</p>
 
             {/* 카드 덱 */}
             <div style={{ position: "relative", width: "120px", height: "180px", margin: "0 auto 40px", perspective: "600px" }}>
@@ -443,13 +443,13 @@ export default function TarotApp() {
           <div className="fade-up" style={{ paddingTop: "44px" }}>
             <div style={{ textAlign: "center", marginBottom: "24px" }}>
               <h2 style={{ fontSize: "1.3rem", fontWeight: 700, color: "#f0e6ff", marginBottom: "6px" }}>카드를 한 장씩 뒤집어보세요</h2>
-              <p style={{ color: "#6b5a8a", fontSize: "0.8rem", fontFamily: "'Noto Sans KR'" }}>{revealedIdx.length} / {drawnCards.length}장 공개됨</p>
+              <p style={{ color: "#c8b8e8", fontSize: "0.8rem", fontFamily: "'Noto Sans KR'" }}>{revealedIdx.length} / {drawnCards.length}장 공개됨</p>
             </div>
 
             <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
               {drawnCards.map((card, idx) => (
                 <div key={idx} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
-                  <span style={{ fontSize: "0.68rem", color: "#9d6fd4", fontFamily: "'Noto Sans KR'", letterSpacing: "0.05em" }}>{spread.positions[idx]}</span>
+                  <span style={{ fontSize: "0.68rem", color: "#c084fc", fontFamily: "'Noto Sans KR'", letterSpacing: "0.05em" }}>{spread.positions[idx]}</span>
                   <div
                     className={!revealedIdx.includes(idx) ? "card-back" : ""}
                     onClick={() => handleReveal(idx)}
@@ -488,9 +488,9 @@ export default function TarotApp() {
         {step === "result" && (
           <div style={{ paddingTop: "36px" }}>
             <div className="fade-up" style={{ textAlign: "center", marginBottom: "24px" }}>
-              <div style={{ fontSize: "0.68rem", color: "#9d6fd4", letterSpacing: "0.2em", marginBottom: "8px", fontFamily: "'Noto Sans KR'" }}>✦ 카드 해석 ✦</div>
+              <div style={{ fontSize: "0.68rem", color: "#c084fc", letterSpacing: "0.2em", marginBottom: "8px", fontFamily: "'Noto Sans KR'" }}>✦ 카드 해석 ✦</div>
               <h2 style={{ fontSize: "1.4rem", fontWeight: 700, color: "#f0e6ff", marginBottom: "4px" }}>{topic?.question}</h2>
-              <p style={{ color: "#6b5a8a", fontSize: "0.78rem", fontFamily: "'Noto Sans KR'" }}>{spread.label} · {spread.sub}</p>
+              <p style={{ color: "#c8b8e8", fontSize: "0.78rem", fontFamily: "'Noto Sans KR'" }}>{spread.label} · {spread.sub}</p>
             </div>
 
             {drawnCards.map((card, idx) => {
@@ -556,7 +556,7 @@ export default function TarotApp() {
                     <div style={{ borderTop: "1px solid rgba(180,130,255,0.15)", paddingTop: "12px" }}>
                       <p style={{ color: "#c084fc", fontSize: "0.82rem", lineHeight: 1.7, margin: 0, fontFamily: "'Noto Serif KR', serif", fontStyle: "italic", textAlign: "center" }}>✦ {closingMsg} ✦</p>
                     </div>
-                    <p style={{ color: "#4a3a6a", fontSize: "0.72rem", lineHeight: 1.6, margin: "10px 0 0", fontFamily: "'Noto Sans KR'" }}>타로 카드는 미래를 예언하는 것이 아니라, 지금 이 순간 내면의 지혜를 일깨워주는 도구예요. 결국 모든 선택과 방향은 당신 안에 있어요.</p>
+                    <p style={{ color: "#a090c0", fontSize: "0.72rem", lineHeight: 1.6, margin: "10px 0 0", fontFamily: "'Noto Sans KR'" }}>타로 카드는 미래를 예언하는 것이 아니라, 지금 이 순간 내면의 지혜를 일깨워주는 도구예요. 결국 모든 선택과 방향은 당신 안에 있어요.</p>
                   </div>
                 );
               })()}
@@ -565,10 +565,10 @@ export default function TarotApp() {
             <button onClick={handleShare} style={{ width: "100%", padding: "15px", background: copied ? "#16a34a" : "linear-gradient(135deg, #6d28d9, #9333ea)", border: "none", borderRadius: "13px", color: "#fff", fontFamily: "'Noto Serif KR', serif", fontSize: "0.95rem", fontWeight: 700, cursor: "pointer", marginBottom: "10px", transition: "background .3s", boxShadow: "0 8px 24px rgba(109,40,217,0.3)" }}>
               {copied ? "✓ 복사됐어요!" : "📤 결과 공유하기"}
             </button>
-            <button onClick={restart} style={{ width: "100%", padding: "13px", background: "transparent", border: "1px solid rgba(180,130,255,0.15)", borderRadius: "13px", color: "#6b5a8a", fontFamily: "'Noto Sans KR', sans-serif", fontSize: "0.88rem", cursor: "pointer" }}>
+            <button onClick={restart} style={{ width: "100%", padding: "13px", background: "transparent", border: "1px solid rgba(180,130,255,0.15)", borderRadius: "13px", color: "#c8b8e8", fontFamily: "'Noto Sans KR', sans-serif", fontSize: "0.88rem", cursor: "pointer" }}>
               다시 뽑기
             </button>
-            <p style={{ color: "#2a1a3a", fontSize: "0.7rem", textAlign: "center", marginTop: "14px", fontFamily: "'Noto Sans KR'" }}>재미로 즐기는 콘텐츠예요 🔮</p>
+            <p style={{ color: "#8070a0", fontSize: "0.7rem", textAlign: "center", marginTop: "14px", fontFamily: "'Noto Sans KR'" }}>재미로 즐기는 콘텐츠예요 🔮</p>
           </div>
         )}
       </div>

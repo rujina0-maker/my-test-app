@@ -2,6 +2,7 @@ import { useState } from "react";
 import TetoEgen from "./teto-egen";
 import JoseonTest from "./joseon-test";
 import MBTI64 from "./mbti64";
+import TarotApp from "./tarot";
 
 export default function App() {
   const [page, setPage] = useState("home");
@@ -9,6 +10,7 @@ export default function App() {
   if (page === "teto") return <TetoEgen />;
   if (page === "joseon") return <JoseonTest />;
   if (page === "mbti") return <MBTI64 />;
+  if (page === "tarot") return <TarotApp />;
 
   return (
     <div style={{ minHeight: "100vh", background: "#07070f", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "14px", padding: "40px 20px", fontFamily: "'Noto Sans KR', sans-serif" }}>
@@ -31,6 +33,12 @@ export default function App() {
         <div style={{ fontSize: "1.6rem", marginBottom: "6px" }}>🏯</div>
         <div>조선시대 직업 테스트</div>
         <div style={{ fontSize: "0.75rem", opacity: 0.6, marginTop: "3px", fontWeight: 400 }}>내가 조선에 태어났다면?</div>
+      </button>
+
+      <button onClick={() => setPage("tarot")} style={{ width: "100%", maxWidth: "360px", padding: "20px 24px", background: "linear-gradient(135deg, #2d1b69, #6d28d9)", border: "1px solid rgba(180,130,255,0.3)", borderRadius: "16px", color: "#fff", fontFamily: "inherit", fontSize: "1rem", fontWeight: 700, cursor: "pointer", textAlign: "left", boxShadow: "0 8px 24px rgba(109,40,217,0.3)" }}>
+        <div style={{ fontSize: "1.6rem", marginBottom: "6px" }}>🔮</div>
+        <div>타로 카드 리딩</div>
+        <div style={{ fontSize: "0.75rem", opacity: 0.7, marginTop: "3px", fontWeight: 400 }}>오늘 카드가 전하는 메시지</div>
       </button>
     </div>
   );

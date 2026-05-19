@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // ── 로컬 타로 이미지 경로 ────────────────────────────────────
 const CARD_IMAGES = {
@@ -272,7 +272,7 @@ function drawCards(count) {
 const CARD_BACKS = ["✦", "◈", "✧", "⋆", "◇"];
 
 export default function TarotApp() {
-  const [step, setStep] = useState("intro"); // intro | topic | spread | shuffle | reveal | result
+  const [step, setStep] = useState("intro");
   const [topic, setTopic] = useState(null);
   const [spread, setSpread] = useState(null);
   const [drawnCards, setDrawnCards] = useState([]);
@@ -280,9 +280,22 @@ export default function TarotApp() {
   const [shuffling, setShuffling] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  // 앱 로드 시 전체 22장 이미지 백그라운드 프리로드
+  useEffect(() => {
+    Object.values(CARD_IMAGES).forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
   const handleShuffle = () => {
     setShuffling(true);
     const cards = drawCards(spread.count);
+    // 이미지 프리로드 - 백그라운드에서 미리 다운로드
+    cards.forEach(card => {
+      const img = new Image();
+      img.src = CARD_IMAGES[card.id];
+    });
     setTimeout(() => {
       setDrawnCards(cards);
       setShuffling(false);
@@ -295,7 +308,7 @@ export default function TarotApp() {
     const newRevealed = [...revealedIdx, idx];
     setRevealedIdx(newRevealed);
     if (newRevealed.length === drawnCards.length) {
-      setTimeout(() => setStep("result"), 600);
+      setTimeout(() => setStep("result"), 1200); // 이미지 로딩 대기 시간 늘림
     }
   };
 
@@ -525,23 +538,24 @@ export default function TarotApp() {
               const meaning = card.reversed ? card.reversedMeaning : card.upright;
               return (
                 <div key={idx} className="fade-up" style={{ background: card.reversed ? "rgba(60,15,15,0.85)" : "rgba(15,20,50,0.85)", border: `1px solid ${card.reversed ? "rgba(255,120,120,0.35)" : "rgba(120,160,255,0.35)"}`, borderRadius: "20px", padding: "20px", marginBottom: "12px", animationDelay: `${idx * 0.1}s` }}>
-                  {/* 카드 헤더 */}
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: "16px", marginBottom: "14px" }}>
-                    <div style={{ flexShrink: 0, transform: card.reversed ? "rotate(180deg)" : "none", transition: "transform 0.3s", borderRadius: "8px", overflow: "hidden", boxShadow: "0 4px 16px rgba(0,0,0,0.5)" }}>
-                      <CardArt cardId={card.id} size="sm" />
+                  {/* 위치 + 방향 뱃지 */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "14px" }}>
+                    <span style={{ fontSize: "0.72rem", color: "#c084fc", fontFamily: "'Noto Sans KR'", fontWeight: 700, background: "rgba(192,132,252,0.15)", padding: "3px 10px", borderRadius: "999px" }}>{spread.positions[idx]}</span>
+                    <span style={{ fontSize: "0.68rem", background: card.reversed ? "rgba(255,100,100,0.25)" : "rgba(100,150,255,0.25)", color: card.reversed ? "#ffbbbb" : "#bbddff", padding: "3px 10px", borderRadius: "999px", fontFamily: "'Noto Sans KR'", fontWeight: 600 }}>{card.reversed ? "역방향 ▼" : "정방향 ▲"}</span>
+                  </div>
+                  {/* 이미지 + 카드명 가로 배치 */}
+                  <div style={{ display: "flex", gap: "16px", alignItems: "center", marginBottom: "14px" }}>
+                    <div style={{ flexShrink: 0, transform: card.reversed ? "rotate(180deg)" : "none", transition: "transform 0.3s", borderRadius: "8px", overflow: "hidden", boxShadow: "0 6px 20px rgba(0,0,0,0.6)" }}>
+                      <CardArt cardId={card.id} size="md" />
                     </div>
-                    <div style={{ flex: 1, paddingTop: "4px" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px", flexWrap: "wrap" }}>
-                        <span style={{ fontSize: "0.7rem", color: "#c084fc", fontFamily: "'Noto Sans KR'", fontWeight: 700, background: "rgba(192,132,252,0.15)", padding: "2px 8px", borderRadius: "999px" }}>{spread.positions[idx]}</span>
-                        <span style={{ fontSize: "0.65rem", background: card.reversed ? "rgba(255,100,100,0.25)" : "rgba(100,150,255,0.25)", color: card.reversed ? "#ffbbbb" : "#bbddff", padding: "2px 8px", borderRadius: "999px", fontFamily: "'Noto Sans KR'", fontWeight: 600 }}>{card.reversed ? "역방향 ▼" : "정방향 ▲"}</span>
-                      </div>
-                      <div style={{ fontSize: "1.2rem", fontWeight: 900, color: "#ffffff", marginBottom: "4px", fontFamily: "'Noto Serif KR', serif" }}>{card.name}</div>
-                      <div style={{ fontSize: "0.82rem", color: card.reversed ? "#ffcccc" : "#bbddff", fontFamily: "'Noto Sans KR'", fontWeight: 700 }}>{meaning.title}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: "1.4rem", fontWeight: 900, color: "#ffffff", marginBottom: "6px", fontFamily: "'Noto Serif KR', serif", lineHeight: 1.2 }}>{card.name}</div>
+                      <div style={{ fontSize: "0.88rem", color: card.reversed ? "#ffcccc" : "#bbddff", fontFamily: "'Noto Sans KR'", fontWeight: 700, marginBottom: "4px" }}>{meaning.title}</div>
                     </div>
                   </div>
                   {/* 구분선 */}
                   <div style={{ height: "1px", background: card.reversed ? "rgba(255,120,120,0.2)" : "rgba(120,160,255,0.2)", marginBottom: "12px" }} />
-                  {/* 해석 */}
+                  {/* 해석 텍스트 */}
                   <p style={{ color: "#e8dff8", fontSize: "0.9rem", lineHeight: 1.85, margin: 0, fontFamily: "'Noto Sans KR'", wordBreak: "keep-all" }}>{meaning.desc}</p>
                 </div>
               );
